@@ -8,15 +8,14 @@ public class Casilla {
     // Atributos 
     private boolean tieneMina;
     private boolean estaDescubierta;
-    private boolean estaMarcada; // Para marcar con 'F' (bandera)
+    private boolean estaMarcada; 
     private int minasAdyacentes;
     private final int fila;
     private final int columna;
 
-    /**
-     * Constructor
-     * @param fila Fila de la casilla (0-9)
-     * @param columna Columna de la casilla (0-9)
+//     * Constructor
+     /* @param fila Fila de la casilla (0-9)
+     * @param columna Columna de la casilla (0-9)*/
      */
     public Casilla(int fila, int columna) {
         this.fila = fila;
