@@ -2,5 +2,9 @@ package prueba;
 
 public class tablero {
 	//aqui va lo del tablero
-	//alexander
+	
+	
+	
+	//rosa se fue
+	//jajajaaj
 }
