@@ -2,10 +2,11 @@ package prueba;
 
 public class tablero {
 	//aqui va lo del tablero
-	
-	
-	
-	//rosa se fue
-	//jajajaaj
-//49854
+	//commit
+	///ajhgsd
+	/////mateo jaja
+	/////010101
+	////5465
+	//544
+	//alexander
 }
