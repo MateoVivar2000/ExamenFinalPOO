@@ -1,12 +1,14 @@
 package modelo;
 
-// Clase para representar una casilla individual en el tablero
+/* -Representa una celda individual en el tablero del Buscaminas.
+   -Implementa el encapsulamiento para proteger los estados internos.*/
+ 
 public class Casilla {
 
-    // Atributos privados (Encapsulamiento)
+    // Atributos 
     private boolean tieneMina;
     private boolean estaDescubierta;
-    private boolean estaMarcada;
+    private boolean estaMarcada; // Para marcar con 'F' (bandera)
     private int minasAdyacentes;
     private final int fila;
     private final int columna;
@@ -19,13 +21,13 @@ public class Casilla {
     public Casilla(int fila, int columna) {
         this.fila = fila;
         this.columna = columna;
-        this.tieneMina = false; // Por defecto no tiene mina
-        this.estaDescubierta = false; // Por defecto está cubierta
-        this.estaMarcada = false; // Por defecto no está marcada
-        this.minasAdyacentes = 0; // Por defecto cero minas alrededor
+        this.tieneMina = false;
+        this.estaDescubierta = false;
+        this.estaMarcada = false;
+        this.minasAdyacentes = 0;
     }
 
-    // --- Métodos Modificadores (Setters) ---
+    // --- Métodos Modificadores (Mutators/Setters) ---
 
     public void colocarMina() {
         this.tieneMina = true;
@@ -35,16 +37,19 @@ public class Casilla {
         this.minasAdyacentes = minasAdyacentes;
     }
     
-    // Método clave que cambia el estado y se usa en el Controlador
+    // Método clave que cambia el estado al ser seleccionada
     public void descubrir() {
         this.estaDescubierta = true;
     }
     
+    // Método para marcar/desmarcar con bandera (requisito del juego)
     public void marcar() {
-        this.estaMarcada = !this.estaMarcada; // Alterna el estado de marcado
+        if (!estaDescubierta) { // Solo se puede marcar si no ha sido descubierta
+             this.estaMarcada = !this.estaMarcada; 
+        }
     }
 
-    // --- Métodos Accesores (Getters) ---
+    // --- Métodos Accesores (Accessors/Getters) ---
 
     public boolean tieneMina() {
         return tieneMina;
@@ -71,8 +76,8 @@ public class Casilla {
     }
 
     /**
-     * Devuelve la representación de la casilla para la consola.
-     * La lógica de 'V' y 'X' se puede refinar en el Tablero o en la Vista.
+     * Devuelve la representación en String de la casilla para la consola.
+     * Esta lógica será usada por la Vista.
      */
     @Override
     public String toString() {
@@ -80,7 +85,7 @@ public class Casilla {
             return "F"; // Bandera (Flag)
         }
         if (!estaDescubierta) {
-            return "☐"; // Casilla no descubierta (Cuadro blanco)
+            return "☐"; // Casilla cubierta
         }
         if (tieneMina) {
             return "X"; // Ubicación de una mina
@@ -88,7 +93,7 @@ public class Casilla {
         if (minasAdyacentes > 0) {
             return String.valueOf(minasAdyacentes); // Muestra el número
         }
-        // Si no tiene mina y es 0
+        // Si es descubierta y tiene 0 minas adyacentes
         return " "; // Espacio vacío seleccionado
     }
 }
