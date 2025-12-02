@@ -6,4 +6,6 @@ public class tablero {
 	///ajhgsd
 	/////mateo jaja
 	/////010101
+	////5465
+	//544
 }
