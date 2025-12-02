@@ -5,4 +5,5 @@ public class tablero {
 	//commit
 	///ajhgsd
 	/////mateo jaja
+	/////010101
 }
