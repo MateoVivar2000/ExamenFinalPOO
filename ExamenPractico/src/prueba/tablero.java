@@ -8,6 +8,10 @@ public class tablero {
 	/////010101
 	////5465
 	//544
+<<<<<<< HEAD
 	//alexander
+=======
+>>>>>>> branch 'master' of https://github.com/MateoVivar2000/ExamenFinalPOO.git
 }
 //hhhhh
+/// vale?
