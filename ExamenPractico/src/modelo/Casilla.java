@@ -89,7 +89,7 @@ public class Casilla {
     	if (estaMarcada) {
             return "\nU+2713"; // retorna un visto
         }
-    	//si no esta decubierta tapoa la casilla
+    	//si no esta decubierta tapa la casilla
         if (!estaDescubierta) {
             return "☐"; // Casilla cubierta
         }
@@ -97,11 +97,11 @@ public class Casilla {
         if (tieneMina) {
             return "X"; // Ubicación de una mina
         }
-        //
+        //muestra cuantas minas estan en sus 8 espacios circundantes
         if (minasAdyacentes > 0) {
-            return String.valueOf(minasAdyacentes); // Muestra el número
+            return String.valueOf(minasAdyacentes); // Muestra el número (valueOf lo convierte de int a String)
         }
         // Si es descubierta y tiene 0 minas adyacentes
-        return " "; // Espacio vacío seleccionado
+        return "minas circundantes: "+ minasAdyacentes; // Espacio vacío seleccionado ESTE ES MODIFICADOO REVISAR PREVIO AL ENVIO
     }
 }
