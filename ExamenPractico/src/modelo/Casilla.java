@@ -1,4 +1,4 @@
-package prueba;
+package modelo;
 
 public class Casilla {
 
