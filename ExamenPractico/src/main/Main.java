@@ -1,5 +1,4 @@
-//SIN DELEGACION
-package main;
+//SIN DELEGACION1
 
 import controlador.ControladorJuego;
 import modelo.Tablero;
