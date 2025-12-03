@@ -1,51 +1,36 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Tablero {
-    
-    // =================ATRIBUTOS CONSTANTE============
-	//Constantes (tamaño fijo 10x10 y 10 minas)
-    public static final int FILAS = 10; // CUANDO ES FINAL SE DEBE NOMBRAR EN MAYUSCULAS
+public class Tablero implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    public static final int FILAS = 10;
     public static final int COLUMNAS = 10;
     public static final int NUM_MINAS = 10;
 
-    //=======ASOCIACION DE TABLERO CON LAS CASILLAS========
-    private Casilla[][] casillas; //[][]  DEFINE FILAS Y COLUMNAS
-    private int casillasSegurasRestantes; // CONDICIÓN DE VICTORIA
-    
-    
-    
-    
-    //=============CONSTRUCTOR DEL TABLERO====================
-    
-    // ACCIONES INICIALIZA MATRIZ, COLOCA MINAS 
-    
-    public Tablero() {
-        this.casillas = new Casilla[FILAS][COLUMNAS];
-        this.casillasSegurasRestantes = FILAS * COLUMNAS - NUM_MINAS;//CONDICION DE GANADOR
+    private Casilla[][] casillas;
+    private int casillasSegurasRestantes;
 
-        // Inicializar la matriz con objetos Casilla 
-        for (int i = 0; i < FILAS; i++) {
-            for (int j = 0; j < COLUMNAS; j++) {
+    public Tablero() {
+        casillas = new Casilla[FILAS][COLUMNAS];
+        casillasSegurasRestantes = FILAS * COLUMNAS - NUM_MINAS;
+
+        for (int i = 0; i < FILAS; i++)
+            for (int j = 0; j < COLUMNAS; j++)
                 casillas[i][j] = new Casilla(i, j);
-            }
-        }
-        
-        // COLOCA MINAS Y VE MINAS ADYACENTES
+
         colocarMinasAleatoriamente();
         calcularMinasAdyacentes();
     }
 
-    // COLOCA EL NÚMERO DE MINAS
     private void colocarMinasAleatoriamente() {
         Random random = new Random();
         int minasColocadas = 0;
         while (minasColocadas < NUM_MINAS) {
-        	//FILAS Y COLUMNAS ALEATORIAS
             int fila = random.nextInt(FILAS);
             int columna = random.nextInt(COLUMNAS);
-
             if (!casillas[fila][columna].tieneMina()) {
                 casillas[fila][columna].colocarMina();
                 minasColocadas++;
@@ -53,112 +38,83 @@ public class Tablero {
         }
     }
 
-   // MINAS ADYACENTES
     private void calcularMinasAdyacentes() {
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLUMNAS; j++) {
-                if (!casillas[i][j].tieneMina()) {
-                    int conteo = 0;
-                    // RECORRE CASILLAS ADYACENTES
-                    for (int di = -1; di <= 1; di++) {
-                        for (int dj = -1; dj <= 1; dj++) {
-                            if (di == 0 && dj == 0) continue; 
-                            
-                            int ni = i + di; // Nueva fila
-                            int nj = j + dj; // Nueva columna
-
-                            // Verificar límites del tablero
-                            if (ni >= 0 && ni < FILAS && nj >= 0 && nj < COLUMNAS) {
-                                if (casillas[ni][nj].tieneMina()) {
-                                    conteo++;
-                                }
-                            }
+                if (casillas[i][j].tieneMina()) continue;
+                int conteo = 0;
+                for (int di = -1; di <= 1; di++) {
+                    for (int dj = -1; dj <= 1; dj++) {
+                        if (di == 0 && dj == 0) continue;
+                        int ni = i + di;
+                        int nj = j + dj;
+                        if (ni >= 0 && ni < FILAS && nj >= 0 && nj < COLUMNAS) {
+                            if (casillas[ni][nj].tieneMina()) conteo++;
                         }
                     }
-                    casillas[i][j].setMinasAdyacentes(conteo);
                 }
+                casillas[i][j].setMinasAdyacentes(conteo);
             }
         }
     }
 
-    // ========Lógica de Interacción (Método principal usado por el Controlador)===========
+    /**
+     * Descubre la casilla indicada.
+     * @return false si se descubrió una mina (fin de juego), true si continúa.
+     * @throws Exception si la casilla ya está descubierta o está marcada.
+     */
+    public boolean descubrir(int fila, int columna) throws Exception {
+        Casilla c = casillas[fila][columna];
+        if (c.estaDescubierta()) throw new Exception("Casilla ya descubierta.");
+        if (c.estaMarcada()) throw new Exception("La casilla está marcada. Desmárcala para descubrirla.");
 
+        c.descubrir();
 
-    public boolean descubrir(int fila, int columna) throws Exception { //LANZA EXCEPCION
-        Casilla casilla = casillas[fila][columna];
-
-        if (casilla.estaDescubierta() || casilla.estaMarcada()) {
-            // excepción personalizada
-            throw new Exception("CasillaYaDescubiertaException: Ya está revelada o marcada."); 
+        if (c.tieneMina()) {
+            return false;
         }
 
-        casilla.descubrir();
-        
-        //GAME OVER
-        if (casilla.tieneMina()) {
-            return false; 
-        }
-        
-        ////---------------------------
-        
-        
-        //--POR COMPLETAR MATEO----
-        
-        
-        
-        ////--------------------------
-        
         casillasSegurasRestantes--;
 
-        // Si es una casilla vacía (0 minas adyacentes), inicia la expansión recursiva
-        if (casilla.getMinasAdyacentes() == 0) {
+        if (c.getMinasAdyacentes() == 0) {
             expandirCasillasVacias(fila, columna);
         }
 
-        return true; // Juego continúa
+        return true;
     }
 
-    // Método para la expansión recursiva (Flood Fill)
     private void expandirCasillasVacias(int fila, int columna) {
-        // Implementación requerida de la lógica recursiva
-        if (casillas[fila][columna].getMinasAdyacentes() != 0) {
-            // Se detiene si encuentra un número (borde)
-            return;
-        }
-
-        // Recorre las 8 casillas adyacentes
         for (int di = -1; di <= 1; di++) {
             for (int dj = -1; dj <= 1; dj++) {
                 int ni = fila + di;
                 int nj = columna + dj;
-
-                // 1. Verificar límites
                 if (ni >= 0 && ni < FILAS && nj >= 0 && nj < COLUMNAS) {
-                    Casilla adyacente = casillas[ni][nj];
-
-                    // 2. Si no ha sido descubierta y no tiene una mina
-                    if (!adyacente.estaDescubierta() && !adyacente.tieneMina()) {
-                        adyacente.descubrir();
+                    Casilla vecino = casillas[ni][nj];
+                    if (!vecino.estaDescubierta() && !vecino.tieneMina() && !vecino.estaMarcada()) {
+                        vecino.descubrir();
                         casillasSegurasRestantes--;
-
-                        // 3. Si la adyacente también es vacía (0), llama a la función recursivamente
-                        if (adyacente.getMinasAdyacentes() == 0) {
-                            expandirCasillasVacias(ni, nj);
-                        }
+                        if (vecino.getMinasAdyacentes() == 0) expandirCasillasVacias(ni, nj);
                     }
                 }
             }
         }
     }
 
-    // --- Getters para la Vista ---
+    public void marcarCasilla(int fila, int columna) {
+        casillas[fila][columna].marcar();
+    }
 
     public Casilla getCasilla(int fila, int columna) {
         return casillas[fila][columna];
     }
-    
+
     public boolean esVictoria() {
-        // Requisito: Victoria si todas las casillas seguras han sido reveladas
         return casillasSegurasRestantes == 0;
+    }
+
+    public void revelarTodo() {
+        for (int i = 0; i < FILAS; i++)
+            for (int j = 0; j < COLUMNAS; j++)
+                casillas[i][j].descubrir();
     }
 }
