@@ -15,12 +15,14 @@ public class Tablero {
     private int casillasSegurasRestantes; // CONDICIÓN DE VICTORIA
     
     
-    /**
-     * Constructor del Tablero: Inicializa la matriz, coloca minas y calcula adyacencias.
-     */
+    
+    
+    //=============CONSTRUCTOR DEL TABLERO====================
+    
+    // ACCIONES INICIALIZA MATRIZ, COLOCA MINAS 
+    
     public Tablero() {
         this.casillas = new Casilla[FILAS][COLUMNAS];
-        // Total de casillas seguras = Total - Minas
         this.casillasSegurasRestantes = FILAS * COLUMNAS - NUM_MINAS;
 
         // 1. Inicializar la matriz con objetos Casilla
