@@ -1,15 +1,15 @@
-
+//EN PROCESO POR MATEO 03/12/2025
 package vista;
-
+//IMPORTACIÓN DE CLASES
 import modelo.Tablero;
 import java.util.Scanner;
 
 public class VistaConsola {
 
-    
+    //ENCAPSULAMIENTO DE SCANNER
     private final Scanner scanner;
 
-    // Constructor: inicializa el Scanner
+    ===============CONSTRUCTOR INICIA SCANNER=========
     public VistaConsola() {
         this.scanner = new Scanner(System.in);
     }
