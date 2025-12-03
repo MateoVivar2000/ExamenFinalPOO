@@ -1,108 +1,108 @@
-// ROSITA
-
 package controlador;
 
-import modelo.Tablero;
+import modelo.JuegoBuscaminas;
 import vista.VistaConsola;
-import java.util.InputMismatchException; // Para detectar formator incorrecto en la coordenada
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-/**
- * Gestiona el flujo principal del juego Buscaminas.
- * Hace de intermediario entre el Modelo (Tablero) y la Vista (Consola).
- */
 public class ControladorJuego {
 
-    private Tablero modelo;        // Contiene la lógica del buscaminas
-    private final VistaConsola vista; // Interfaz que muestra mensajes y pide datos
-    private boolean juegoActivo;      // Controla el ciclo principal
+    // Atributos principales del controlador
+    private JuegoBuscaminas juego;   // Lógica del juego
+    private final VistaConsola vista; // Interfaz de usuario
+    private final Scanner scanner;    // Para leer la entrada del usuario
 
-    public ControladorJuego(Tablero modelo, VistaConsola vista) {
-        this.modelo = modelo;
+    // Constructor
+    public ControladorJuego(JuegoBuscaminas juego, VistaConsola vista) {
+        this.juego = juego;
         this.vista = vista;
-        this.juegoActivo = true; // Cuando sea false, el juego termina
+        this.scanner = new Scanner(System.in); // Inicializa Scanner
     }
 
-    /**
-     * Inicia el bucle principal del juego.
-     */
+    // Método principal que inicia el juego
     public void iniciarJuego() {
-        vista.mostrarMensaje("¡Bienvenido al Buscaminas POO!");
-        
-        while (juegoActivo) { // Bucle principal
-            vista.mostrarTablero(modelo); // Muestra el tablero actual
-            
-            String entrada = vista.pedirCoordenada(); // Pide algo como "A5"
-            
-            if (entrada.equals("S")) { // Acción para guardar el juego
-                vista.mostrarMensaje("Guardando y saliendo del juego...");
-                // Aquí iría la serialización para persistencia (examen)
-                juegoActivo = false;
-                continue;
-            }
-            
-            try {
-                // 1. Convertir la entrada en coordenadas válidas
-                int[] coords = procesarCoordenada(entrada);
-                int fila = coords[0];
-                int columna = coords[1];
-                
-                // 2. El modelo intenta descubrir esa casilla
-                boolean continua = modelo.descubrir(fila, columna);
-                
-                if (!continua) {
-                    // El jugador perdió al seleccionar una mina
-                    vista.mostrarMensaje("¡BOOM! Has seleccionado una mina. Juego Terminado.");
-                    juegoActivo = false;
-                    
-                    // Muestra el tablero revelado
-                    vista.mostrarTablero(modelo);
-                } else if (modelo.esVictoria()) {
-                    // Todas las casillas seguras fueron descubiertas
-                    vista.mostrarMensaje("¡FELICIDADES! Has descubierto todas las casillas seguras.");
-                    juegoActivo = false;
+        boolean jugarOtraVez = true; // Controla si el usuario quiere jugar otra partida
+
+        while (jugarOtraVez) {
+            vista.mostrarMensaje("¡EXAMEN PRACTICO JUEGO BUSCA MINAS!");
+
+            // Bucle del turno de cada juego
+            while (juego.estaActivo()) {
+                vista.mostrarTablero(juego.getTablero());       // Muestra el tablero
+                String entrada = vista.pedirCoordenada();       // Pide coordenadas al usuario
+
+                // Opción de salir y guardar el juego
+                if (entrada.equals("S")) {
+                    juego.guardarJuego();
+                    vista.mostrarMensaje("Juego guardado. Saliendo...");
+                    return; // Termina el método
                 }
-                
-            } catch (InputMismatchException e) {
-                // Detecta formato incorrecto: ejemplo "ZZ", "A?", ""
-                vista.mostrarMensaje("Error: Formato de entrada inválido. Use el formato LetraNúmero (Ej: A5).");
-            } catch (ArrayIndexOutOfBoundsException e) {
-                // Cuando la fila o columna no están dentro del rango permitido
-                vista.mostrarMensaje("Error: Coordenadas fuera de los límites del tablero (A-H, 1-10).");
-            } catch (Exception e) {
-                // Captura cualquier excepción personalizada como CasillaYaDescubiertaException
-                vista.mostrarMensaje(e.getMessage());
+
+                try {
+                    int[] coords = procesarCoordenada(entrada); // Convierte entrada a [fila, columna]
+                    int fila = coords[0];
+                    int columna = coords[1];
+
+                    // Validar si la casilla ya está descubierta
+                    if (juego.getTablero().getCasilla(fila, columna).estaDescubierta()) {
+                        vista.mostrarMensaje("Esta casilla ya está descubierta. Escoge otra.");
+                        continue; // vuelve a pedir coordenada
+                    }
+
+                    // Descubre la casilla y revisa el estado del juego
+                    boolean sigue = juego.descubrirCasilla(fila, columna);
+
+                    if (!sigue) { // Pisó una mina
+                        vista.mostrarMensaje("¡BOOM! Pisaste una mina. Juego Terminado.");
+                        vista.mostrarTablero(juego.getTablero());
+                        break;
+                    }
+
+                    if (juego.getEstado() == JuegoBuscaminas.EstadoJuego.VICTORIA) { // Ganó
+                        vista.mostrarMensaje("¡FELICIDADES! Has ganado.");
+                        vista.mostrarTablero(juego.getTablero());
+                        break;
+                    }
+
+                } catch (InputMismatchException e) {
+                    vista.mostrarMensaje("Error: Formato inválido. Ejemplo: A5");
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    vista.mostrarMensaje("Error: Coordenadas fuera del tablero (A-J, 1-10)");
+                } catch (Exception e) {
+                    vista.mostrarMensaje("Error: " + e.getMessage());
+                }
+            }
+
+            // Preguntar si quiere jugar otra vez
+            System.out.print("¿QUIERES JUGAR OTRA VEZ? (S/N): ");
+            String respuesta = scanner.nextLine().trim().toUpperCase();
+            if (respuesta.equals("S")) {
+                juego = new JuegoBuscaminas(); // Reinicia juego
+            } else {
+                vista.mostrarMensaje("GRACIAS POR JUGAR");
+                jugarOtraVez = false; // Sale del bucle exterior
             }
         }
-        vista.mostrarMensaje("Gracias por jugar.");
     }
 
-    /**
-     * Transforma una entrada tipo "A5" en índices de matriz (fila y columna).
-     * @throws InputMismatchException si el formato no es válido
-     * @throws ArrayIndexOutOfBoundsException si la coordenada no existe en el tablero
-     */
+    // Convierte entrada tipo "A5" a coordenadas [fila, columna]
     private int[] procesarCoordenada(String input) throws InputMismatchException, ArrayIndexOutOfBoundsException {
-        
-        // La entrada debe tener al menos una letra y un número
         if (input == null || input.length() < 2) {
-            throw new InputMismatchException();
+            throw new InputMismatchException(); // Entrada muy corta
         }
 
-        // Letra A-H → fila 0-7
-        char letra = input.charAt(0);
-        int fila = letra - 'A';
-
-        // Número 1-10 → columna 0-9
+        char letra = Character.toUpperCase(input.charAt(0)); // Convierte a mayúscula
+        int fila = letra - 'A'; // A-J → 0-9
         int columna;
+
         try {
-            columna = Integer.parseInt(input.substring(1)) - 1;
+            columna = Integer.parseInt(input.substring(1)) - 1; // 1-10 → 0-9
         } catch (NumberFormatException e) {
-            throw new InputMismatchException(); // No puso un número válido
+            throw new InputMismatchException(); // No es un número válido
         }
-        
-        // Validación de límites del tablero
-        if (fila < 0 || fila >= Tablero.FILAS || columna < 0 || columna >= Tablero.COLUMNAS) {
-            throw new ArrayIndexOutOfBoundsException();
+
+        if (fila < 0 || fila >= 10 || columna < 0 || columna >= 10) {
+            throw new ArrayIndexOutOfBoundsException(); // Fuera del tablero
         }
 
         return new int[]{fila, columna};
