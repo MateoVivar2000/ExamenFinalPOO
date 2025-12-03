@@ -1,5 +1,6 @@
 package modelo;
 
+//TERMINADA
 /* -Representa una celda individual en el tablero del Buscaminas.
    -Implementa el encapsulamiento para proteger los estados internos.*/
  

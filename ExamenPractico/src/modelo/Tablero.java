@@ -17,26 +17,15 @@ public class Tablero {
     
     
     
-
-    /*-------------------NO 
-     * 					TOCAR
-     * 					MATEO
-     * 					CONTINUA--------------------------------
-     * 
-     * 
-     * 
-     * 
-     */
+    //=============CONSTRUCTOR DEL TABLERO====================
     
-    /**
-     * Constructor del Tablero: Inicializa la matriz, coloca minas y calcula adyacencias.
-     */
+    // ACCIONES INICIALIZA MATRIZ, COLOCA MINAS 
+    
     public Tablero() {
         this.casillas = new Casilla[FILAS][COLUMNAS];
-        // Total de casillas seguras = Total - Minas
-        this.casillasSegurasRestantes = FILAS * COLUMNAS - NUM_MINAS;
+        this.casillasSegurasRestantes = FILAS * COLUMNAS - NUM_MINAS;//CONDICION DE GANADOR
 
-        // 1. Inicializar la matriz con objetos Casilla
+        // 1. Inicializar la matriz con objetos Casilla 
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLUMNAS; j++) {
                 casillas[i][j] = new Casilla(i, j);
