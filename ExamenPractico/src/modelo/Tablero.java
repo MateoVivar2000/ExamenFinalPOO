@@ -25,25 +25,24 @@ public class Tablero {
         this.casillas = new Casilla[FILAS][COLUMNAS];
         this.casillasSegurasRestantes = FILAS * COLUMNAS - NUM_MINAS;//CONDICION DE GANADOR
 
-        // 1. Inicializar la matriz con objetos Casilla 
+        // Inicializar la matriz con objetos Casilla 
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLUMNAS; j++) {
                 casillas[i][j] = new Casilla(i, j);
             }
         }
         
-        // 2. Colocar minas y calcular adyacencias
+        // COLOCA MINAS Y VE MINAS ADYACENTES
         colocarMinasAleatoriamente();
         calcularMinasAdyacentes();
     }
 
-    /**
-     * Coloca el número fijo de minas en posiciones aleatorias.
-     */
+    // COLOCA EL NÚMERO DE MINAS
     private void colocarMinasAleatoriamente() {
         Random random = new Random();
         int minasColocadas = 0;
         while (minasColocadas < NUM_MINAS) {
+        	//FILAS Y COLUMNAS ALEATORIAS
             int fila = random.nextInt(FILAS);
             int columna = random.nextInt(COLUMNAS);
 
@@ -54,15 +53,13 @@ public class Tablero {
         }
     }
 
-    /**
-     * Recorre el tablero y establece el conteo de minas adyacentes.
-     */
+   // MINAS ADYACENTES
     private void calcularMinasAdyacentes() {
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLUMNAS; j++) {
                 if (!casillas[i][j].tieneMina()) {
                     int conteo = 0;
-                    // Recorrer las 8 casillas adyacentes (incluye diagonales)
+                    // RECORRE CASILLAS ADYACENTES
                     for (int di = -1; di <= 1; di++) {
                         for (int dj = -1; dj <= 1; dj++) {
                             if (di == 0 && dj == 0) continue; 
@@ -84,26 +81,25 @@ public class Tablero {
         }
     }
 
-    // --- Lógica de Interacción (Método principal usado por el Controlador) ---
+    // ========Lógica de Interacción (Método principal usado por el Controlador)===========
 
-    /**
-     * Intenta descubrir una casilla. Debe lanzar excepciones personalizadas aquí.
-     * @return true si el juego debe continuar, false si es una derrota.
-     */
-    public boolean descubrir(int fila, int columna) throws Exception { 
+
+    public boolean descubrir(int fila, int columna) throws Exception { //LANZA EXCEPCION
         Casilla casilla = casillas[fila][columna];
 
         if (casilla.estaDescubierta() || casilla.estaMarcada()) {
-            // Requisito: Lanzar una excepción personalizada
+            // excepción personalizada
             throw new Exception("CasillaYaDescubiertaException: Ya está revelada o marcada."); 
         }
 
         casilla.descubrir();
         
+        //GAME OVER
         if (casilla.tieneMina()) {
-            // Requisito: Derrota
-            return false; // ¡Juego perdido!
+            return false; 
         }
+        
+        --POR COMPLETAR MATEO----
         
         casillasSegurasRestantes--;
 
