@@ -49,6 +49,7 @@ public class Casilla implements Serializable { // INDICA QUE LOS OBJETOS DE LA C
     public int getFila() { return fila; }
     public int getColumna() { return columna; }
 
+   //SOBRESCRITURA
     @Override
     public String toString() {
         if (estaMarcada) return "F";
