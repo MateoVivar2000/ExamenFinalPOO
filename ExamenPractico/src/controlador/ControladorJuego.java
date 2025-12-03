@@ -1,24 +1,25 @@
+// ROSITA
 
-//ROSITA
 package controlador;
 
 import modelo.Tablero;
 import vista.VistaConsola;
-import java.util.InputMismatchException; // Requerido para manejo de excepciones
+import java.util.InputMismatchException; // Para detectar formator incorrecto en la coordenada
 
 /**
- * Gestiona el flujo de la aplicación, controlando la interacción entre Modelo y Vista.
+ * Gestiona el flujo principal del juego Buscaminas.
+ * Hace de intermediario entre el Modelo (Tablero) y la Vista (Consola).
  */
 public class ControladorJuego {
 
-    private Tablero modelo;
-    private final VistaConsola vista;
-    private boolean juegoActivo;
+    private Tablero modelo;        // Contiene la lógica del buscaminas
+    private final VistaConsola vista; // Interfaz que muestra mensajes y pide datos
+    private boolean juegoActivo;      // Controla el ciclo principal
 
     public ControladorJuego(Tablero modelo, VistaConsola vista) {
         this.modelo = modelo;
         this.vista = vista;
-        this.juegoActivo = true;
+        this.juegoActivo = true; // Cuando sea false, el juego termina
     }
 
     /**
@@ -27,47 +28,48 @@ public class ControladorJuego {
     public void iniciarJuego() {
         vista.mostrarMensaje("¡Bienvenido al Buscaminas POO!");
         
-        while (juegoActivo) {
-            vista.mostrarTablero(modelo);
+        while (juegoActivo) { // Bucle principal
+            vista.mostrarTablero(modelo); // Muestra el tablero actual
             
-            String entrada = vista.pedirCoordenada();
+            String entrada = vista.pedirCoordenada(); // Pide algo como "A5"
             
-            if (entrada.equals("S")) {
-                // Lógica de guardar estado (Persistencia) - Requisito del examen
+            if (entrada.equals("S")) { // Acción para guardar el juego
                 vista.mostrarMensaje("Guardando y saliendo del juego...");
-                // Aquí iría la llamada al método de serialización del Modelo
+                // Aquí iría la serialización para persistencia (examen)
                 juegoActivo = false;
                 continue;
             }
             
             try {
-                // 1. Procesa y valida la entrada de coordenadas
+                // 1. Convertir la entrada en coordenadas válidas
                 int[] coords = procesarCoordenada(entrada);
                 int fila = coords[0];
                 int columna = coords[1];
                 
-                // 2. Llama a la lógica del Modelo y maneja el resultado/excepciones
+                // 2. El modelo intenta descubrir esa casilla
                 boolean continua = modelo.descubrir(fila, columna);
                 
                 if (!continua) {
-                    // Derrota (mina seleccionada)
+                    // El jugador perdió al seleccionar una mina
                     vista.mostrarMensaje("¡BOOM! Has seleccionado una mina. Juego Terminado.");
                     juegoActivo = false;
-                    // Aquí se puede mostrar el tablero completo revelado
+                    
+                    // Muestra el tablero revelado
                     vista.mostrarTablero(modelo);
                 } else if (modelo.esVictoria()) {
-                    // Victoria
+                    // Todas las casillas seguras fueron descubiertas
                     vista.mostrarMensaje("¡FELICIDADES! Has descubierto todas las casillas seguras.");
                     juegoActivo = false;
                 }
                 
             } catch (InputMismatchException e) {
+                // Detecta formato incorrecto: ejemplo "ZZ", "A?", ""
                 vista.mostrarMensaje("Error: Formato de entrada inválido. Use el formato LetraNúmero (Ej: A5).");
             } catch (ArrayIndexOutOfBoundsException e) {
-                 // Manejo de índices fuera de límites
+                // Cuando la fila o columna no están dentro del rango permitido
                 vista.mostrarMensaje("Error: Coordenadas fuera de los límites del tablero (A-H, 1-10).");
             } catch (Exception e) {
-                // Captura CasillaYaDescubiertaException y otras excepciones personalizadas
+                // Captura cualquier excepción personalizada como CasillaYaDescubiertaException
                 vista.mostrarMensaje(e.getMessage());
             }
         }
@@ -75,30 +77,30 @@ public class ControladorJuego {
     }
 
     /**
-     * Convierte la entrada del usuario (Ej: A5) en índices de matriz (fila, columna).
-     * @param input Entrada del usuario.
-     * @return Array de enteros {fila, columna}.
-     * @throws InputMismatchException Si el formato es incorrecto.
-     * @throws ArrayIndexOutOfBoundsException Si las coordenadas están fuera del tablero.
+     * Transforma una entrada tipo "A5" en índices de matriz (fila y columna).
+     * @throws InputMismatchException si el formato no es válido
+     * @throws ArrayIndexOutOfBoundsException si la coordenada no existe en el tablero
      */
     private int[] procesarCoordenada(String input) throws InputMismatchException, ArrayIndexOutOfBoundsException {
+        
+        // La entrada debe tener al menos una letra y un número
         if (input == null || input.length() < 2) {
             throw new InputMismatchException();
         }
 
-        // Obtener la letra (A-H) y convertirla en índice (0-7)
+        // Letra A-H → fila 0-7
         char letra = input.charAt(0);
         int fila = letra - 'A';
 
-        // Obtener la columna (1-10) y convertirla en índice (0-9)
+        // Número 1-10 → columna 0-9
         int columna;
         try {
             columna = Integer.parseInt(input.substring(1)) - 1;
         } catch (NumberFormatException e) {
-            throw new InputMismatchException();
+            throw new InputMismatchException(); // No puso un número válido
         }
         
-        // Verificar límites para lanzar ArrayIndexOutOfBoundsException si es necesario
+        // Validación de límites del tablero
         if (fila < 0 || fila >= Tablero.FILAS || columna < 0 || columna >= Tablero.COLUMNAS) {
             throw new ArrayIndexOutOfBoundsException();
         }
