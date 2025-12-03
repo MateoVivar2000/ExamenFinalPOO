@@ -1,5 +1,5 @@
 package modelo;
-
+//IMPORTACIÓN DE SERIABLE
 import java.io.Serializable;
 
 public class Casilla implements Serializable { // INDICA QUE LOS OBJETOS DE LA CLASE SON SERIALIZADOS
