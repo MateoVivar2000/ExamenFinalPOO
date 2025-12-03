@@ -99,7 +99,14 @@ public class Tablero {
             return false; 
         }
         
-        --POR COMPLETAR MATEO----
+        ////---------------------------
+        
+        
+        //--POR COMPLETAR MATEO----
+        
+        
+        
+        ////--------------------------
         
         casillasSegurasRestantes--;
 
