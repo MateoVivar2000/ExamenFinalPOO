@@ -1,3 +1,4 @@
+//TERMINADO 03/12/2025
 package modelo;
 //IMPORTACIÓN DE SERIABLE
 import java.io.Serializable;

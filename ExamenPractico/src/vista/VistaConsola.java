@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class VistaConsola {
 
-    // Scanner para leer la entrada del usuario desde la consola
+    
     private final Scanner scanner;
 
     // Constructor: inicializa el Scanner
