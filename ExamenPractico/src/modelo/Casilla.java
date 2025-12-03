@@ -14,15 +14,19 @@ public class Casilla implements Serializable { // INDICA QUE LOS OBJETOS DE LA C
     private final int fila;
     private final int columna;
 
+    
+    //======CONSTRUCTOR=======
     public Casilla(int fila, int columna) {
         this.fila = fila;
         this.columna = columna;
+        // INICIALIZA TODO EN FALSO O 0
         this.tieneMina = false;
         this.estaDescubierta = false;
         this.estaMarcada = false;
         this.minasAdyacentes = 0;
     }
-
+    
+    //METODO PARA COLOCAR MINA Y COMPROBAR SI EXISTE
     public void colocarMina() { this.tieneMina = true; }
     public boolean tieneMina() { return tieneMina; }
 
