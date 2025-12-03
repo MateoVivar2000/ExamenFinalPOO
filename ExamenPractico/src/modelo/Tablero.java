@@ -23,9 +23,9 @@ public class Tablero {
     
     public Tablero() {
         this.casillas = new Casilla[FILAS][COLUMNAS];
-        this.casillasSegurasRestantes = FILAS * COLUMNAS - NUM_MINAS;
+        this.casillasSegurasRestantes = FILAS * COLUMNAS - NUM_MINAS;//CONDICION DE GANADOR
 
-        // 1. Inicializar la matriz con objetos Casilla
+        // 1. Inicializar la matriz con objetos Casilla --
         for (int i = 0; i < FILAS; i++) {
             for (int j = 0; j < COLUMNAS; j++) {
                 casillas[i][j] = new Casilla(i, j);
