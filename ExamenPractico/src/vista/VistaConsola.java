@@ -1,4 +1,4 @@
-//ALEXANDER
+
 package vista;
 
 import modelo.Tablero;
@@ -63,7 +63,7 @@ public class VistaConsola {
      // La entrada se limpia y se convierte a mayúscula.
      
     public String pedirCoordenada() {
-        System.out.print("Ingrese coordenada (Ej: A5) o 'S' para guardar/salir: ");
+        System.out.print("Ingrese coordenada (Ej: A5) ");
         return scanner.nextLine().trim().toUpperCase();
     }
 
