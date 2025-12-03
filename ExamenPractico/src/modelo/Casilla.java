@@ -2,9 +2,11 @@ package modelo;
 
 import java.io.Serializable;
 
-public class Casilla implements Serializable {
+public class Casilla implements Serializable { // INDICA QUE LOS OBJETOS DE LA CLASE SON SERIALIZADOS
     private static final long serialVersionUID = 1L;
 
+    
+    //========ATRIBUTTOS=========
     private boolean tieneMina;
     private boolean estaDescubierta;
     private boolean estaMarcada;
