@@ -1,3 +1,4 @@
+//PAULINA
 package vista;
 
 import modelo.Tablero;

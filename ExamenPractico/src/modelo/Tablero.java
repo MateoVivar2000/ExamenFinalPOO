@@ -15,19 +15,6 @@ public class Tablero {
     private int casillasSegurasRestantes; // CONDICIÓN DE VICTORIA
     
     
-    
-    
-
-    /*-------------------NO 
-     * 					TOCAR
-     * 					MATEO
-     * 					CONTINUA--------------------------------
-     * 
-     * 
-     * 
-     * 
-     */
-    
     /**
      * Constructor del Tablero: Inicializa la matriz, coloca minas y calcula adyacencias.
      */
