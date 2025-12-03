@@ -29,12 +29,12 @@ public class Casilla implements Serializable { // INDICA QUE LOS OBJETOS DE LA C
     //METODO PARA COLOCAR MINA Y COMPROBAR SI EXISTE
     public void colocarMina() { this.tieneMina = true; }
     public boolean tieneMina() { return tieneMina; }
-
+    //METODO QUE DESCUBRE 
     public void descubrir() {
         this.estaDescubierta = true;
         this.estaMarcada = false;
     }
-
+    //CONDICIONALES DE JUEGO
     public boolean estaDescubierta() { return estaDescubierta; }
 
     public void marcar() {
@@ -42,7 +42,7 @@ public class Casilla implements Serializable { // INDICA QUE LOS OBJETOS DE LA C
     }
 
     public boolean estaMarcada() { return estaMarcada; }
-
+    
     public void setMinasAdyacentes(int n) { this.minasAdyacentes = n; }
     public int getMinasAdyacentes() { return minasAdyacentes; }
 
