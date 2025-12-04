@@ -63,7 +63,7 @@ public class VistaConsola  {
         return scanner.nextLine().trim().toUpperCase();
     }
 
-   // Muestra cualquier mensaje centrado en la consola.
+   // Muestra mensaje centrado en la consola.
     public void mostrarMensaje(String mensaje) {
         int anchoConsola = 130;
         int espacios = (anchoConsola - mensaje.length()) / 2;
