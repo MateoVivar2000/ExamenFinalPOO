@@ -1,15 +1,15 @@
-//ALEXANDER
+//EN PROCESO POR MATEO 03/12/2025
 package vista;
-
+//IMPORTACIÓN DE CLASES
 import modelo.Tablero;
 import java.util.Scanner;
 
 public class VistaConsola {
 
-    // Scanner para leer la entrada del usuario desde la consola
+    //ENCAPSULAMIENTO DE SCANNER
     private final Scanner scanner;
 
-    // Constructor: inicializa el Scanner
+    ===============CONSTRUCTOR INICIA SCANNER=========
     public VistaConsola() {
         this.scanner = new Scanner(System.in);
     }
@@ -63,7 +63,7 @@ public class VistaConsola {
      // La entrada se limpia y se convierte a mayúscula.
      
     public String pedirCoordenada() {
-        System.out.print("Ingrese coordenada (Ej: A5) o 'S' para guardar/salir: ");
+        System.out.print("Ingrese coordenada (Ej: A5) ");
         return scanner.nextLine().trim().toUpperCase();
     }
 
