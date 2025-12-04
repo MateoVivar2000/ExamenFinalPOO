@@ -9,7 +9,7 @@ public class VistaConsola {
     //ENCAPSULAMIENTO DE SCANNER
     private final Scanner scanner;
 
-    ===============CONSTRUCTOR INICIA SCANNER=========
+    //===============CONSTRUCTOR INICIA SCANNER=========
     public VistaConsola() {
         this.scanner = new Scanner(System.in);
     }
