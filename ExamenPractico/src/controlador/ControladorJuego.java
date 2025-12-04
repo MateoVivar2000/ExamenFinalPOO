@@ -31,12 +31,6 @@ public class ControladorJuego {
                 vista.mostrarTablero(juego.getTablero());       // Muestra el tablero
                 String entrada = vista.pedirCoordenada();       // Pide coordenadas al usuario
 
-                // Opción de salir y guardar el juego
-                if (entrada.equals("S")) {
-                    juego.guardarJuego();
-                    vista.mostrarMensaje("Juego guardado. Saliendo...");
-                    return; // Termina el método
-                }
 
                 try {
                     int[] coords = procesarCoordenada(entrada); // Convierte entrada a [fila, columna]
