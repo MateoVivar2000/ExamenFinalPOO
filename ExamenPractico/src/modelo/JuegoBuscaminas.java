@@ -25,7 +25,7 @@ public class JuegoBuscaminas implements Serializable {
         boolean continua = tablero.descubrir(fila, columna); // Le digo al tablero que descubra la casilla
 
         if (!continua) {
-            this.estado = EstadoJuego.DERROTA; // Si era mina, el juego termina
+            this.estado = EstadoJuego.DERROTA; // Si era mina, el juego termina.
             return false;
         }
 
