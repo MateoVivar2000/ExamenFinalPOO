@@ -42,7 +42,8 @@ Configurar Build Path/Dependencias: Asegúrate de que el proyecto utilice Java S
 
 Configurar Paquetes Fuente: Verifica que los directorios src/controlador, src/modelo, src/vista, y src/main estén configurados como Carpetas de Código Fuente (Source Folders) de Java.
 
-**Estructura de Paquetes y Clases**
+--**Estructura de Paquetes y Clases**--
+
 El código está dividido en cuatro paquetes principales, siguiendo la convención de paquetes de Java y el patrón 
 
 <img width="858" height="341" alt="image" src="https://github.com/user-attachments/assets/1a26bcb5-eb00-441d-a639-45570a7f02c0" />
