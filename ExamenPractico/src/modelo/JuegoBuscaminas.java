@@ -1,3 +1,4 @@
+//TERMINADO 03/10/2025
 package modelo;
 
 import java.io.*;
@@ -30,7 +31,7 @@ public class JuegoBuscaminas implements Serializable {
         }
 
         if (tablero.esVictoria()) {
-            this.estado = EstadoJuego.VICTORIA; // Si descubrí todas las seguras, gané
+            this.estado = EstadoJuego.VICTORIA; // Si descubre todas las seguras, gané
         }
 
         return true; // Si no pasó nada grave, sigo jugando

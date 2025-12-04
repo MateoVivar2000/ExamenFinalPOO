@@ -1,4 +1,4 @@
-//TERMINADO 
+//TERMINADO 03/12/2025
 package controlador;
 
 import modelo.JuegoBuscaminas;

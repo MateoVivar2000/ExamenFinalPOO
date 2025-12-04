@@ -1,4 +1,5 @@
-package main; // paquete distinto del nombre de la clase
+//TERMINADO 03/12/2025
+package main; 
 
 import controlador.ControladorJuego;
 import modelo.JuegoBuscaminas;
