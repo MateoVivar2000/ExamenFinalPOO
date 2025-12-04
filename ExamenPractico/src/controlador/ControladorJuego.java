@@ -1,4 +1,4 @@
-//EN PROCESO
+//TERMINADO 
 package controlador;
 
 import modelo.JuegoBuscaminas;
@@ -47,8 +47,8 @@ public class ControladorJuego {
                     // Descubre la casilla y revisa el estado del juego
                     boolean sigue = juego.descubrirCasilla(fila, columna);
 
-                    if (!sigue) { // Pisó una mina
-                        vista.mostrarMensaje("¡BOOM! Pisaste una mina. Juego Terminado.");
+                    if (!sigue) { // DESCUBRIO UNA MINA 
+                        vista.mostrarMensaje("¡BOOOOOOOOM! Pisaste una mina. Juego Terminado.");
                         vista.mostrarTablero(juego.getTablero());
                         break;
                     }
@@ -60,7 +60,7 @@ public class ControladorJuego {
                     }
 
                 } catch (InputMismatchException e) {
-                    vista.mostrarMensaje("Error: Formato inválido. Ejemplo: A5");
+                    vista.mostrarMensaje("Error: Formato inválido, Pruebalo nuevamente. Ejemplo: A5");
                 } catch (ArrayIndexOutOfBoundsException e) {
                     vista.mostrarMensaje("Error: Coordenadas fuera del tablero (A-J, 1-10)");
                 } catch (Exception e) {
@@ -69,9 +69,9 @@ public class ControladorJuego {
             }
 
             // Preguntar si quiere jugar otra vez
-            System.out.print("¿QUIERES JUGAR OTRA VEZ? (S/N): ");
+            System.out.print("¿QUIERES JUGAR OTRA VEZ? (Si/No): ");
             String respuesta = scanner.nextLine().trim().toUpperCase();
-            if (respuesta.equals("S")) {
+            if (respuesta.equals("SI")) {
                 juego = new JuegoBuscaminas(); // Reinicia juego
             } else {
                 vista.mostrarMensaje("GRACIAS POR JUGAR");
@@ -83,10 +83,10 @@ public class ControladorJuego {
     // Convierte entrada tipo "A5" a coordenadas [fila, columna]
     private int[] procesarCoordenada(String input) throws InputMismatchException, ArrayIndexOutOfBoundsException {
         if (input == null || input.length() < 2) {
-            throw new InputMismatchException(); // Entrada muy corta
+            throw new InputMismatchException(); 
         }
 
-        char letra = Character.toUpperCase(input.charAt(0)); // Convierte a mayúscula
+        char letra = Character.toUpperCase(input.charAt(0)); 
         int fila = letra - 'A'; // A-J → 0-9
         int columna;
 
