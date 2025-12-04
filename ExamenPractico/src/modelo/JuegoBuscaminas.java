@@ -69,7 +69,7 @@ public class JuegoBuscaminas implements Serializable {
         }
     }
 
-    //************METODO DESCUBRIR CASILLA*******//
+    //************METODO DESCUBRIR CASILLA********//
  // Carga la partida guardada, o crea una nueva si no existe
     public static JuegoBuscaminas cargarJuego() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(ARCHIVO_GUARDADO))) {
