@@ -48,6 +48,9 @@ El código está dividido en cuatro paquetes principales, siguiendo la convenci�
 
 <img width="858" height="341" alt="image" src="https://github.com/user-attachments/assets/1a26bcb5-eb00-441d-a639-45570a7f02c0" />
 
+
 --**Diagrama de Clases**--
+
+
 ![WhatsApp Image 2025-12-04 at 7 47 36 PM (1)](https://github.com/user-attachments/assets/438566dc-dc80-4699-88f6-db183eb36c06)
 
